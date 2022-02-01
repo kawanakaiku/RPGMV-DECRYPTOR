@@ -35,12 +35,15 @@ def isEncryptedFile(path): # Function for determining if the specified path is a
         return True # Yes it is an encrypted RMMV File.
 
 def decryptFile(encryptedFilename,key): # Function for decrypting a file.
+    dfile = decryptFilename(encryptedFilename)
+    ctime = os.stat(encryptedFilename).st_ctime
     file = open(encryptedFilename,"rb").read() # Read encrypted file.
     file = file[16:] # Remove file header.
     cyphertext = bytearray(file[:16]) # Read encrypted file header.
     plaintext = str(xor(cyphertext,key)) # Decrypt file header
     file = file[16:] # Remove decrypted file header
-    open(decryptFilename(encryptedFilename),"wb").write(plaintext + file) # Write decrypted file header + rest of file to disk as Decrypted Filename..
+    open(dfile,"wb").write(plaintext + file) # Write decrypted file header + rest of file to disk as Decrypted Filename..
+    os.utime(dfile, (ctime, ctime))
 
 
 def decryptEntireGame(gameDir): # Function for decrypting an entire game folder.
