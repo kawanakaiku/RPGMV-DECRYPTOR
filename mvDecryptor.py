@@ -14,8 +14,8 @@ def xor(data, key): # XOR Encryption / Decryption Algorithm
 
 def findKey(gameDir): # Function for finding decryption key
     key = open(gameDir+"/www/data/System.json","rb").read() # Read System.json
-    key = key[key.index('"encryptionKey":"')+len('"encryptionKey":"'):] # Find "encryptionKey":" in System.json
-    key = key[:key.index('"}')] # Finish string at "}
+    key = key[key.index(b'"encryptionKey":"')+len(b'"encryptionKey":"'):] # Find "encryptionKey":" in System.json
+    key = key[:key.index(b'"}')] # Finish string at "}
     return bytearray(binascii.unhexlify(key)) # Decode Hexadecimal and convert to ByteArray.
 
 def decryptFilename(encryptedFilename): # Function for "Decrypting" a filename
@@ -40,7 +40,7 @@ def decryptFile(encryptedFilename,key): # Function for decrypting a file.
     file = open(encryptedFilename,"rb").read() # Read encrypted file.
     file = file[16:] # Remove file header.
     cyphertext = bytearray(file[:16]) # Read encrypted file header.
-    plaintext = str(xor(cyphertext,key)) # Decrypt file header
+    plaintext = bytearray(xor(cyphertext,key)) # Decrypt file header
     file = file[16:] # Remove decrypted file header
     open(dfile,"wb").write(plaintext + file) # Write decrypted file header + rest of file to disk as Decrypted Filename..
     os.utime(dfile, (ctime, ctime))
@@ -54,8 +54,8 @@ def decryptEntireGame(gameDir): # Function for decrypting an entire game folder.
                 decryptFile(os.path.join(path,f),key) # Decrypt the file.
                 os.remove(os.path.join(path,f)) # Delete encrypted file
     SystemJson = open(gameDir+"/www/data/System.json","rb").read() # Reads System.json
-    SystemJson = SystemJson.replace('"hasEncryptedImages":true','"hasEncryptedImages":false') # Sets hasEncryptedImages to FALSE
-    SystemJson = SystemJson.replace('"hasEncryptedAudio":true','"hasEncryptedAudio":false') # Sets hasEncryptedAudio to FALSE
+    SystemJson = SystemJson.replace(b'"hasEncryptedImages":true',b'"hasEncryptedImages":false') # Sets hasEncryptedImages to FALSE
+    SystemJson = SystemJson.replace(b'"hasEncryptedAudio":true',b'"hasEncryptedAudio":false') # Sets hasEncryptedAudio to FALSE
     open(gameDir+"/www/data/System.json","wb").write(SystemJson) # Writes new System.json to disk
-    open(gameDir+"/www/Game.rpgproject","wb").write("RPGMV 1.0.0") # Creates Editable RPG Maker MV Project File
+    open(gameDir+"/www/Game.rpgproject","wb").write(b"RPGMV 1.0.0") # Creates Editable RPG Maker MV Project File
 
