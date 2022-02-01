@@ -36,7 +36,7 @@ def isEncryptedFile(path): # Function for determining if the specified path is a
 
 def decryptFile(encryptedFilename,key): # Function for decrypting a file.
     dfile = decryptFilename(encryptedFilename)
-    ctime = os.stat(encryptedFilename).st_ctime
+    ctime = os.stat(encryptedFilename).st_mtime
     file = open(encryptedFilename,"rb").read() # Read encrypted file.
     file = file[16:] # Remove file header.
     cyphertext = bytearray(file[:16]) # Read encrypted file header.
