@@ -25,6 +25,8 @@ def decryptFilename(encryptedFilename): # Function for "Decrypting" a filename
         return encryptedFilename[:-7] + ".m4a" # Make .m4a file.
     if encryptedFilename.endswith(".rpgmvp"): # If file extension is .rpgmvp
         return encryptedFilename[:-7] + ".png" # Make .png file.
+    if path[-4:-1] in ["ogg", "m4a", "png"]:
+        return encryptedFilename[:-1]
 
 def isEncryptedFile(path): # Function for determining if the specified path is an Encrypted RMMV File..
     if path.endswith(".rpgmvo"): # If file extension is .rpgmvo
@@ -33,6 +35,8 @@ def isEncryptedFile(path): # Function for determining if the specified path is a
         return True # Yes it is an encrypted RMMV File.
     if path.endswith(".rpgmvp"): # If file extension is .rpgmvp
         return True # Yes it is an encrypted RMMV File.
+    if path[-4:-1] in ["ogg", "m4a", "png"]:
+        return True
 
 def decryptFile(encryptedFilename,key): # Function for decrypting a file.
     dfile = decryptFilename(encryptedFilename)
