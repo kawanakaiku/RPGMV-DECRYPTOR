@@ -1,5 +1,7 @@
 from https://bitbucket.org/SilicaAndPina/rpgmv-decryptor/src/master/
 
+runs on python3
+
 # RPGMV-DECRYPTOR            
 Decrypts RPG Maker MV Game Files (.rpgmvo, .rpgmvp and .rpgmvm files)         
 and creates an .rpgproject editable file.        
